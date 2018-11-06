@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BodyByMiguelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Exercicio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="Observacao" Type="text" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BodyByMiguel.dbo.ExercicioTreino' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ExercicioTreino">
+          <Key>
+            <PropertyRef Name="IdTreino" />
+            <PropertyRef Name="IdExercicio" />
+          </Key>
+          <Property Name="IdTreino" Type="int" Nullable="false" />
+          <Property Name="IdExercicio" Type="int" Nullable="false" />
+          <Property Name="NRepeticoes" Type="int" />
+          <Property Name="NSeries" Type="int" />
+          <Property Name="Observacoes" Type="nchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="PlanoTreino">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataCriacao" Type="datetime" Nullable="false" />
+          <Property Name="Observacoes" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Treino">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="Observacoes" Type="text" />
+        </EntityType>
+        <Association Name="FK_ExercicioTreino_Exercicio">
+          <End Role="Exercicio" Type="Self.Exercicio" Multiplicity="1" />
+          <End Role="ExercicioTreino" Type="Self.ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exercicio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExercicioTreino">
+              <PropertyRef Name="IdExercicio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExercicioTreino_Treino">
+          <End Role="Treino" Type="Self.Treino" Multiplicity="1" />
+          <End Role="ExercicioTreino" Type="Self.ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Treino">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExercicioTreino">
+              <PropertyRef Name="IdTreino" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlanoTreino">
+          <End Role="PlanoTreino" Type="Self.PlanoTreino" Multiplicity="1" />
+          <End Role="Treino" Type="Self.Treino" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PlanoTreino">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Treino">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BodyByMiguelModelStoreContainer">
+          <EntitySet Name="Exercicio" EntityType="Self.Exercicio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlanoTreino" EntityType="Self.PlanoTreino" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Treino" EntityType="Self.Treino" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExercicioTreino" EntityType="Self.ExercicioTreino" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ExercicioTreino].[IdTreino] AS [IdTreino], 
+    [ExercicioTreino].[IdExercicio] AS [IdExercicio], 
+    [ExercicioTreino].[NRepeticoes] AS [NRepeticoes], 
+    [ExercicioTreino].[NSeries] AS [NSeries], 
+    [ExercicioTreino].[Observacoes] AS [Observacoes]
+    FROM [dbo].[ExercicioTreino] AS [ExercicioTreino]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_ExercicioTreino_Exercicio" Association="Self.FK_ExercicioTreino_Exercicio">
+            <End Role="Exercicio" EntitySet="Exercicio" />
+            <End Role="ExercicioTreino" EntitySet="ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExercicioTreino_Treino" Association="Self.FK_ExercicioTreino_Treino">
+            <End Role="Treino" EntitySet="Treino" />
+            <End Role="ExercicioTreino" EntitySet="ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlanoTreino" Association="Self.FK_PlanoTreino">
+            <End Role="PlanoTreino" EntitySet="PlanoTreino" />
+            <End Role="Treino" EntitySet="Treino" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BodyByMiguelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Exercicio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Observacao" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ExercicioTreino" Relationship="Self.FK_ExercicioTreino_Exercicio" FromRole="Exercicio" ToRole="ExercicioTreino" />
+        </EntityType>
+        <EntityType Name="PlanoTreino">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataCriacao" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Observacoes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Treino" Relationship="Self.FK_PlanoTreino" FromRole="PlanoTreino" ToRole="Treino" />
+        </EntityType>
+        <EntityType Name="Treino">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Observacoes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PlanoTreino" Relationship="Self.FK_PlanoTreino" FromRole="Treino" ToRole="PlanoTreino" />
+          <NavigationProperty Name="ExercicioTreino" Relationship="Self.FK_ExercicioTreino_Treino" FromRole="Treino" ToRole="ExercicioTreino" />
+        </EntityType>
+        <EntityType Name="ExercicioTreino">
+          <Key>
+            <PropertyRef Name="IdTreino" />
+            <PropertyRef Name="IdExercicio" />
+          </Key>
+          <Property Name="IdTreino" Type="Int32" Nullable="false" />
+          <Property Name="IdExercicio" Type="Int32" Nullable="false" />
+          <Property Name="NRepeticoes" Type="Int32" />
+          <Property Name="NSeries" Type="Int32" />
+          <Property Name="Observacoes" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Exercicio" Relationship="Self.FK_ExercicioTreino_Exercicio" FromRole="ExercicioTreino" ToRole="Exercicio" />
+          <NavigationProperty Name="Treino" Relationship="Self.FK_ExercicioTreino_Treino" FromRole="ExercicioTreino" ToRole="Treino" />
+        </EntityType>
+        <Association Name="FK_ExercicioTreino_Exercicio">
+          <End Role="Exercicio" Type="Self.Exercicio" Multiplicity="1" />
+          <End Role="ExercicioTreino" Type="Self.ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exercicio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExercicioTreino">
+              <PropertyRef Name="IdExercicio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlanoTreino">
+          <End Role="PlanoTreino" Type="Self.PlanoTreino" Multiplicity="1" />
+          <End Role="Treino" Type="Self.Treino" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PlanoTreino">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Treino">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExercicioTreino_Treino">
+          <End Role="Treino" Type="Self.Treino" Multiplicity="1" />
+          <End Role="ExercicioTreino" Type="Self.ExercicioTreino" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Treino">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExercicioTreino">
+              <PropertyRef Name="IdTreino" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BodyByMiguelContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Exercicio" EntityType="Self.Exercicio" />
+          <EntitySet Name="PlanoTreino" EntityType="Self.PlanoTreino" />
+          <EntitySet Name="Treino" EntityType="Self.Treino" />
+          <EntitySet Name="ExercicioTreino" EntityType="Self.ExercicioTreino" />
+          <AssociationSet Name="FK_ExercicioTreino_Exercicio" Association="Self.FK_ExercicioTreino_Exercicio">
+            <End Role="Exercicio" EntitySet="Exercicio" />
+            <End Role="ExercicioTreino" EntitySet="ExercicioTreino" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlanoTreino" Association="Self.FK_PlanoTreino">
+            <End Role="PlanoTreino" EntitySet="PlanoTreino" />
+            <End Role="Treino" EntitySet="Treino" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExercicioTreino_Treino" Association="Self.FK_ExercicioTreino_Treino">
+            <End Role="Treino" EntitySet="Treino" />
+            <End Role="ExercicioTreino" EntitySet="ExercicioTreino" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BodyByMiguelModelStoreContainer" CdmEntityContainer="BodyByMiguelContext">
+          <EntitySetMapping Name="Exercicio">
+            <EntityTypeMapping TypeName="BodyByMiguelModel.Exercicio">
+              <MappingFragment StoreEntitySet="Exercicio">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Observacao" ColumnName="Observacao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlanoTreino">
+            <EntityTypeMapping TypeName="BodyByMiguelModel.PlanoTreino">
+              <MappingFragment StoreEntitySet="PlanoTreino">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DataCriacao" ColumnName="DataCriacao" />
+                <ScalarProperty Name="Observacoes" ColumnName="Observacoes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Treino">
+            <EntityTypeMapping TypeName="BodyByMiguelModel.Treino">
+              <MappingFragment StoreEntitySet="Treino">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Observacoes" ColumnName="Observacoes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExercicioTreino">
+            <EntityTypeMapping TypeName="BodyByMiguelModel.ExercicioTreino">
+              <MappingFragment StoreEntitySet="ExercicioTreino">
+                <ScalarProperty Name="IdTreino" ColumnName="IdTreino" />
+                <ScalarProperty Name="IdExercicio" ColumnName="IdExercicio" />
+                <ScalarProperty Name="NRepeticoes" ColumnName="NRepeticoes" />
+                <ScalarProperty Name="NSeries" ColumnName="NSeries" />
+                <ScalarProperty Name="Observacoes" ColumnName="Observacoes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
