@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BodyByMiguelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BodyByMiguelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Exercicio">
           <Key>
             <PropertyRef Name="Id" />
@@ -26,6 +26,20 @@ warning 6002: The table/view 'BodyByMiguel.dbo.ExercicioTreino' does not have a 
           <Property Name="NSeries" Type="int" />
           <Property Name="Observacoes" Type="nchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="GrandeMusculo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Descricao" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PequenoMusculo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descricao" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="PlanoTreino">
           <Key>
             <PropertyRef Name="Id" />
@@ -42,6 +56,30 @@ warning 6002: The table/view 'BodyByMiguel.dbo.ExercicioTreino' does not have a 
           <Property Name="Nome" Type="nchar" MaxLength="100" Nullable="false" />
           <Property Name="Observacoes" Type="text" />
         </EntityType>
+        <Association Name="FK__Exercicio__Id__4D94879B">
+          <End Role="PequenoMusculo" Type="Self.PequenoMusculo" Multiplicity="1" />
+          <End Role="Exercicio" Type="Self.Exercicio" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PequenoMusculo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Exercicio">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PequenoMuscu__Id__5070F446">
+          <End Role="GrandeMusculo" Type="Self.GrandeMusculo" Multiplicity="1" />
+          <End Role="PequenoMusculo" Type="Self.PequenoMusculo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="GrandeMusculo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PequenoMusculo">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ExercicioTreino_Exercicio">
           <End Role="Exercicio" Type="Self.Exercicio" Multiplicity="1" />
           <End Role="ExercicioTreino" Type="Self.ExercicioTreino" Multiplicity="*" />
@@ -80,6 +118,8 @@ warning 6002: The table/view 'BodyByMiguel.dbo.ExercicioTreino' does not have a 
         </Association>
         <EntityContainer Name="BodyByMiguelModelStoreContainer">
           <EntitySet Name="Exercicio" EntityType="Self.Exercicio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GrandeMusculo" EntityType="Self.GrandeMusculo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PequenoMusculo" EntityType="Self.PequenoMusculo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PlanoTreino" EntityType="Self.PlanoTreino" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Treino" EntityType="Self.Treino" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExercicioTreino" EntityType="Self.ExercicioTreino" store:Type="Tables" store:Schema="dbo">
@@ -91,6 +131,14 @@ warning 6002: The table/view 'BodyByMiguel.dbo.ExercicioTreino' does not have a 
     [ExercicioTreino].[Observacoes] AS [Observacoes]
     FROM [dbo].[ExercicioTreino] AS [ExercicioTreino]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK__Exercicio__Id__4D94879B" Association="Self.FK__Exercicio__Id__4D94879B">
+            <End Role="PequenoMusculo" EntitySet="PequenoMusculo" />
+            <End Role="Exercicio" EntitySet="Exercicio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PequenoMuscu__Id__5070F446" Association="Self.FK__PequenoMuscu__Id__5070F446">
+            <End Role="GrandeMusculo" EntitySet="GrandeMusculo" />
+            <End Role="PequenoMusculo" EntitySet="PequenoMusculo" />
+          </AssociationSet>
           <AssociationSet Name="FK_ExercicioTreino_Exercicio" Association="Self.FK_ExercicioTreino_Exercicio">
             <End Role="Exercicio" EntitySet="Exercicio" />
             <End Role="ExercicioTreino" EntitySet="ExercicioTreino" />
@@ -104,8 +152,7 @@ warning 6002: The table/view 'BodyByMiguel.dbo.ExercicioTreino' does not have a 
             <End Role="Treino" EntitySet="Treino" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BodyByMiguelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -117,6 +164,7 @@ warning 6002: The table/view 'BodyByMiguel.dbo.ExercicioTreino' does not have a 
           <Property Name="Nome" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Observacao" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ExercicioTreino" Relationship="Self.FK_ExercicioTreino_Exercicio" FromRole="Exercicio" ToRole="ExercicioTreino" />
+          <NavigationProperty Name="PequenoMusculo" Relationship="BodyByMiguelModel.FK__Exercicio__Id__4D94879B1" FromRole="Exercicio" ToRole="PequenoMusculo" />
         </EntityType>
         <EntityType Name="PlanoTreino">
           <Key>
@@ -203,7 +251,58 @@ warning 6002: The table/view 'BodyByMiguel.dbo.ExercicioTreino' does not have a 
             <End Role="Treino" EntitySet="Treino" />
             <End Role="ExercicioTreino" EntitySet="ExercicioTreino" />
           </AssociationSet>
+          <EntitySet Name="GrandeMusculo" EntityType="BodyByMiguelModel.GrandeMusculo" />
+          <EntitySet Name="PequenoMusculo" EntityType="BodyByMiguelModel.PequenoMusculo" />
+          <AssociationSet Name="FK__Exercicio__Id__4D94879B1" Association="BodyByMiguelModel.FK__Exercicio__Id__4D94879B1">
+            <End Role="PequenoMusculo" EntitySet="PequenoMusculo" />
+            <End Role="Exercicio" EntitySet="Exercicio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PequenoMuscu__Id__5070F446" Association="BodyByMiguelModel.FK__PequenoMuscu__Id__5070F446">
+            <End Role="GrandeMusculo" EntitySet="GrandeMusculo" />
+            <End Role="PequenoMusculo" EntitySet="PequenoMusculo" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="GrandeMusculo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Descricao" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PequenoMusculo" Relationship="BodyByMiguelModel.FK__PequenoMuscu__Id__5070F446" FromRole="GrandeMusculo" ToRole="PequenoMusculo" />
+        </EntityType>
+        <EntityType Name="PequenoMusculo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descricao" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Exercicio" Relationship="BodyByMiguelModel.FK__Exercicio__Id__4D94879B1" FromRole="PequenoMusculo" ToRole="Exercicio" />
+          <NavigationProperty Name="GrandeMusculo" Relationship="BodyByMiguelModel.FK__PequenoMuscu__Id__5070F446" FromRole="PequenoMusculo" ToRole="GrandeMusculo" />
+        </EntityType>
+        <Association Name="FK__Exercicio__Id__4D94879B1">
+          <End Type="BodyByMiguelModel.PequenoMusculo" Role="PequenoMusculo" Multiplicity="1" />
+          <End Type="BodyByMiguelModel.Exercicio" Role="Exercicio" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PequenoMusculo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Exercicio">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PequenoMuscu__Id__5070F446">
+          <End Type="BodyByMiguelModel.GrandeMusculo" Role="GrandeMusculo" Multiplicity="1" />
+          <End Type="BodyByMiguelModel.PequenoMusculo" Role="PequenoMusculo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="GrandeMusculo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PequenoMusculo">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -245,6 +344,22 @@ warning 6002: The table/view 'BodyByMiguel.dbo.ExercicioTreino' does not have a 
                 <ScalarProperty Name="NRepeticoes" ColumnName="NRepeticoes" />
                 <ScalarProperty Name="NSeries" ColumnName="NSeries" />
                 <ScalarProperty Name="Observacoes" ColumnName="Observacoes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GrandeMusculo">
+            <EntityTypeMapping TypeName="BodyByMiguelModel.GrandeMusculo">
+              <MappingFragment StoreEntitySet="GrandeMusculo">
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PequenoMusculo">
+            <EntityTypeMapping TypeName="BodyByMiguelModel.PequenoMusculo">
+              <MappingFragment StoreEntitySet="PequenoMusculo">
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

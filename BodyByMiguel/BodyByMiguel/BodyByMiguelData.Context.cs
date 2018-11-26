@@ -29,5 +29,7 @@ namespace BodyByMiguel
         public virtual DbSet<PlanoTreino> PlanoTreino { get; set; }
         public virtual DbSet<Treino> Treino { get; set; }
         public virtual DbSet<ExercicioTreino> ExercicioTreino { get; set; }
+        public virtual DbSet<GrandeMusculo> GrandeMusculo { get; set; }
+        public virtual DbSet<PequenoMusculo> PequenoMusculo { get; set; }
     }
 }

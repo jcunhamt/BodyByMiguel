@@ -12,6 +12,10 @@
         <AssociationConnector Association="BodyByMiguelModel.FK_ExercicioTreino_Exercicio" ManuallyRouted="false" />
         <AssociationConnector Association="BodyByMiguelModel.FK_PlanoTreino" ManuallyRouted="false" />
         <AssociationConnector Association="BodyByMiguelModel.FK_ExercicioTreino_Treino" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="BodyByMiguelModel.GrandeMusculo" Width="1.5" PointX="0.75" PointY="11.5" />
+        <EntityTypeShape EntityType="BodyByMiguelModel.PequenoMusculo" Width="1.5" PointX="0.75" PointY="8.5" />
+        <AssociationConnector Association="BodyByMiguelModel.FK__Exercicio__Id__4D94879B1" />
+        <AssociationConnector Association="BodyByMiguelModel.FK__PequenoMuscu__Id__5070F446" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

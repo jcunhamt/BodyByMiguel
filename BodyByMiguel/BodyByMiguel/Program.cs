@@ -16,7 +16,9 @@ namespace BodyByMiguel
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new Form1());
+			var treino = new TreinoForm();
+			treino.setup();
+			Application.Run(treino);
 		}
 	}
 }
